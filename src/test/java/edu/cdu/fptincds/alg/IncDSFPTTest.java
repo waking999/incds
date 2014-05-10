@@ -30,7 +30,9 @@ public class IncDSFPTTest {
 
 		List<String[]> am1 = fileOperation1.getAdjacencyMatrix();
 
-		DSGreedy ag1 = new DSGreedy(am1);
+		//DSGreedy ag1 = new DSGreedy(am1);
+		DSHillClimbingGreedy ag1=new DSHillClimbingGreedy(am1);
+		
 		ag1.computing();
 
 		List<Integer> ds1 = ag1.getDominatingSet();
@@ -75,8 +77,8 @@ public class IncDSFPTTest {
 		log.debug(sb);
 
 		//3. take advantage of greedy to generate dominating set of graph 2
-		DSGreedy ag2 = new DSGreedy(am2);
-
+		//DSGreedy ag2 = new DSGreedy(am2);
+		DSHillClimbingGreedy ag2 = new DSHillClimbingGreedy(am2);
 		ag2.computing();
 
 		List<Integer> ds3 = ag2.getDominatingSet();

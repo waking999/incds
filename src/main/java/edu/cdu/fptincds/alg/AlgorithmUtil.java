@@ -212,108 +212,45 @@ public class AlgorithmUtil {
 		return list;
 	}
 
-	// public static List<String[]> generateRandOperation(int numOfVertices){
-	// List<String[]> operationList= new ArrayList<String[]>();
-	//
-	// int maxEdgeNum = numOfVertices*(numOfVertices-1)/2;
-	// Random random = new Random();
-	// int operationRandomNum = Math.abs(random.nextInt()%maxEdgeNum);
-	//
-	// for(int i=0;i< operationRandomNum;i++){
-	// String[] operation=new String[3];
-	// Boolean bool = random.nextBoolean();
-	// operation[0]=bool?"1":"0";
-	//
-	// int v1 = Math.abs(random.nextInt()%numOfVertices);
-	// int v2= Math.abs(random.nextInt()%numOfVertices);
-	//
-	// operation[1] = Integer.toString(v1);
-	// operation[2] = Integer.toString(v2);
-	//
-	// operationList.add(operation);
-	// }
-	//
-	// return operationList;
-	// }
+	/**
+	 * judge if it is a solution of dominating set
+	 * 
+	 * @param g
+	 *            , graph
+	 * @param ds
+	 *            , dominating set
+	 * @param complementaryDS
+	 *            , the complementary set of dominating set
+	 * @return boolean, is dominating set or not
+	 */
+	public static boolean isDS(Graph<Integer, Integer> g, List<Integer> ds,
+			List<Integer> complementaryDS) {
 
-	// public static void generateRandGraph400() {
-	// int numOfVertices = 400;
-	//
-	// for (int i = 0; i < 10000; i++) {
-	// List<String[]> am1 = AlgorithmUtil.generateRandGraph(numOfVertices);
-	// AlgorithmGreedy ag1 = new AlgorithmGreedy(am1);
-	// ag1.computing();
-	// List<Integer> ds1 = ag1.getDominatingSet();
-	// int ds1Size = ds1.size();
-	//
-	// List<String[]> am2 = AlgorithmUtil.generateRandGraph(numOfVertices);
-	// AlgorithmGreedy ag2 = new AlgorithmGreedy(am2);
-	// ag2.computing();
-	// List<Integer> ds2 = ag2.getDominatingSet();
-	// int ds2Size = ds2.size();
-	//
-	// Collection<Integer> intsec = CollectionUtils.intersection(ds1, ds2);
-	// int intsecSize = intsec.size();
-	// if (intsecSize >= Math.min(ds1Size, ds2Size) / 2) {
-	// AlgorithmUtil.saveAgjacencyMatrixToFile(am1);
-	// am1 = null;
-	// AlgorithmUtil.saveAgjacencyMatrixToFile(am2);
-	// am2 = null;
-	// break;
-	// }
-	// am1 = null;
-	// am2 = null;
-	//
-	// }
-	//
-	// }
-	//
-	// public static void generateRandGraph400_100000() {
-	// int numOfVertices = 400;
-	// int intsecSize = -1;
-	// int ds1Size = 0;
-	// int ds2Size = 0;
-	// List<Integer> ds1;
-	// List<Integer> ds2;
-	// List<String[]> am1 = null;
-	// List<String[]> am2 = null;
-	// while (intsecSize != Math.min(ds1Size, ds2Size)) {
-	//
-	// am1 = AlgorithmUtil.generateRandGraph(numOfVertices);
-	// AlgorithmGreedy ag1 = new AlgorithmGreedy(am1);
-	// ag1.computing();
-	// ds1 = ag1.getDominatingSet();
-	// ds1Size = ds1.size();
-	//
-	// am2 = AlgorithmUtil.generateRandGraph(numOfVertices);
-	// AlgorithmGreedy ag2 = new AlgorithmGreedy(am2);
-	// ag2.computing();
-	// ds2 = ag2.getDominatingSet();
-	// ds2Size = ds2.size();
-	//
-	// Collection<Integer> intsec = CollectionUtils.intersection(ds1, ds2);
-	//
-	// intsecSize = intsec.size();
-	//
-	// }
-	//
-	// AlgorithmUtil.saveAgjacencyMatrixToFile(am1);
-	//
-	// AlgorithmUtil.saveAgjacencyMatrixToFile(am2);
-	//
-	// }
+		int acDSLen = complementaryDS.size();
+		int count=0;
+		for (int j = 0; j < acDSLen; j++) {
+			Integer u = complementaryDS.get(j);
+			Collection<Integer> neighborsOfU = g.getNeighbors(u);
+			for(Integer neig: neighborsOfU){
+				if (ds.contains(neig)) {
+					count++;
+					break;
+				}
+			}
+			if (count == j) {
+				// if there is not any vertex in the complementary set linked to
+				// a vertex in the set, it is not a dominating set
+				return false;
+			}
+		}
+
+		return true;
+
+	}
 }
 
 class HEdit {
-//	private int numOfHarmOpearion;
-//
-//	public int getNumOfHarmOpearion() {
-//		return numOfHarmOpearion;
-//	}
-//
-//	public void setNumOfHarmOpearion(int numOfHarmOpearion) {
-//		this.numOfHarmOpearion = numOfHarmOpearion;
-//	}
+
 
 	private List<String[]> operationList;
 

@@ -14,6 +14,7 @@ import edu.cdu.fptincds.util.LogUtil;
 public class DSGreedyTest {
 	private Logger log = LogUtil.getLogger(DSGreedyTest.class);
 
+	@Ignore
 	@Test
 	public void testComputing_1() {
 		log.debug("DSGreedy testcase1");
@@ -21,24 +22,18 @@ public class DSGreedyTest {
 		FileInfo fileInfo = new FileInfo();
 		fileInfo.setInputFile("src/test/resources/testcase1.csv");
 
-		FileOperation fileOperation = new FileOperation();
-		fileOperation.setFileInfo(fileInfo);
-		fileOperation.retriveAdjacencyInfo();
+		testComputingWithDifferentData(fileInfo);
 
-		List<String[]> am = fileOperation.getAdjacencyMatrix();
+	}
 
-		// initilize algorithm
-		DSGreedy ag = new DSGreedy(am);
-		ag.computing();
+	@Test
+	public void testComputing_600() {
+		log.debug("DSGreedy testcase600");
+		// read from file
+		FileInfo fileInfo = new FileInfo();
+		fileInfo.setInputFile("src/test/resources/testcase600.csv");
 
-		List<Integer> ds = ag.getDominatingSet();
-		log.debug(ds.size());
-
-		StringBuffer sb = new StringBuffer();
-		for (Integer i : ds) {
-			sb.append(i).append(" ");
-		}
-		log.debug(sb);
+		testComputingWithDifferentData(fileInfo);
 
 	}
 
@@ -50,24 +45,7 @@ public class DSGreedyTest {
 		FileInfo fileInfo = new FileInfo();
 		fileInfo.setInputFile("src/test/resources/testcase400_a.csv");
 
-		FileOperation fileOperation = new FileOperation();
-		fileOperation.setFileInfo(fileInfo);
-		fileOperation.retriveAdjacencyInfo();
-
-		List<String[]> am = fileOperation.getAdjacencyMatrix();
-
-		DSGreedy ag = new DSGreedy(am);
-
-		ag.computing();
-
-		List<Integer> ds = ag.getDominatingSet();
-		log.debug(ds.size());
-
-		StringBuffer sb = new StringBuffer();
-		for (Integer i : ds) {
-			sb.append(i).append(" ");
-		}
-		log.debug(sb);
+		testComputingWithDifferentData(fileInfo);
 
 	}
 
@@ -79,6 +57,11 @@ public class DSGreedyTest {
 		FileInfo fileInfo = new FileInfo();
 		fileInfo.setInputFile("src/test/resources/testcase400_b.csv");
 
+		testComputingWithDifferentData(fileInfo);
+
+	}
+
+	private void testComputingWithDifferentData(FileInfo fileInfo) {
 		FileOperation fileOperation = new FileOperation();
 		fileOperation.setFileInfo(fileInfo);
 		fileOperation.retriveAdjacencyInfo();
@@ -97,7 +80,6 @@ public class DSGreedyTest {
 			sb.append(i).append(" ");
 		}
 		log.debug(sb);
-
 	}
 
 	@Ignore

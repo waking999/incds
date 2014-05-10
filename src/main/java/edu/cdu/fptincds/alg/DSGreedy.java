@@ -20,13 +20,7 @@ public class DSGreedy {
 	 * number of vertices shown in the input file, generally in the first line
 	 */
 	private int numOfVertices;
-//	public void setnumOfVertices(int numOfVertices) {
-//		this.numOfVertices = numOfVertices;
-//	}
 
-//	public void setAdjacencyMatrix(List<String[]> adjacencyMatrix) {
-//		this.adjacencyMatrix = adjacencyMatrix;
-//	}
 
 	/*
 	 * the adjacency matrix shown in the input file
@@ -45,11 +39,15 @@ public class DSGreedy {
 		this.adjacencyMatrix=adjacencyMatrix;
 		this.numOfVertices = adjacencyMatrix.size();
 		this.g = AlgorithmUtil.prepareGraph(this.adjacencyMatrix);	
+		this.vertexDegreeList = AlgorithmUtil
+				.sortVertexAccordingToDegree(g);
 	}
 	
 	public DSGreedy(Graph<Integer, Integer> g){
 		this.g=g;
 		this.numOfVertices = g.getVertexCount();
+		this.vertexDegreeList = AlgorithmUtil
+				.sortVertexAccordingToDegree(g);
 	}
 	
 	/**
@@ -57,8 +55,7 @@ public class DSGreedy {
 	 */
 	private  void initialization() {
 			
-		this.vertexDegreeList = AlgorithmUtil
-				.sortVertexAccordingToDegree(g);
+		
 		this.dominatingSet = new ArrayList<Integer>();
 	}
 
