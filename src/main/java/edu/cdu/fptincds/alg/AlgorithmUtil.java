@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.collections15.CollectionUtils;
 
@@ -112,144 +113,225 @@ public class AlgorithmUtil {
 
 	}
 
-
-	
-	public static HEdit hEdit(List<String[]> am1,Graph<Integer,Integer> g1,List<Integer> s1, int k){
-		List<String[]> operationList=new ArrayList<String[]>();
-
+	/**
+	 * 
+	 * @param am1
+	 *            , the adjacency matrix of graph 1
+	 * @param g1
+	 *            , graph 1
+	 * @param ds1
+	 *            , a domininating set of graph 1
+	 * @param r
+	 *            , the hamming distance between ds1 (for g1) and ds2 (for g2)
+	 * @return
+	 */
+	public static HEdit hEdit(List<String[]> am1, Graph<Integer, Integer> g1,
+			List<Integer> ds1, int r) {
+		List<String[]> operationList = new ArrayList<String[]>();
+		
 		List<String[]> am2 = new ArrayList<String[]>(am1);
 		Collections.copy(am2, am1);
-		
-		Collection<Integer> vertices1 =g1.getVertices();
-		List<Integer> complementOfSByVertices1 = (List<Integer>)CollectionUtils.subtract(vertices1, s1);
+
+		Collection<Integer> vertices1 = g1.getVertices();
+		List<Integer> complementOfSByVertices1 = (List<Integer>) CollectionUtils
+				.subtract(vertices1, ds1);
 		int complementOfSByVertices1Size = complementOfSByVertices1.size();
-		
-		for(int i=0;i<k;i++){
-			int complementPosition = (int) Math.floor(Math.random() * complementOfSByVertices1Size);
-			int complementV  = complementOfSByVertices1.get(complementPosition);
-			Collection<Integer> neighboursOfComplementV = g1.getNeighbors(complementV);
-			Iterator<Integer> neighboursOfComplementVIterator= neighboursOfComplementV.iterator();
-			while(neighboursOfComplementVIterator.hasNext()){
+
+		for (int i = 0; i < r; i++) {
+			int complementPosition = (int) Math.floor(Math.random()
+					* complementOfSByVertices1Size);
+			int complementV = complementOfSByVertices1.get(complementPosition);
+			Collection<Integer> neighboursOfComplementV = g1
+					.getNeighbors(complementV);
+			Iterator<Integer> neighboursOfComplementVIterator = neighboursOfComplementV
+					.iterator();
+			while (neighboursOfComplementVIterator.hasNext()) {
 				int tmpNeighbour = neighboursOfComplementVIterator.next();
-				am2.get(complementV)[tmpNeighbour]=UNCONNECTED;
-				am2.get(tmpNeighbour)[complementV]=UNCONNECTED;
 				
-				operationList.add(new String[]{UNCONNECTED,Integer.toString(complementV),Integer.toString(tmpNeighbour)});
+				//change adjacency matrix
+				am2.get(complementV)[tmpNeighbour] = UNCONNECTED;
+				am2.get(tmpNeighbour)[complementV] = UNCONNECTED;
+
+				//change operation list
+				String[] operation = { UNCONNECTED,
+						Integer.toString(complementV),
+						Integer.toString(tmpNeighbour) };
+				
+				addElementToList(operationList, operation);
 			}
 		}
-		
+		//int numOfHarmOperation = operationList.size();
 		HEdit hEdit = new HEdit();
 		hEdit.setOperationList(operationList);
 		hEdit.setOutputAdjacencyMatrix(am2);
+		//hEdit.setNumOfHarmOpearion(numOfHarmOperation);
+
+		hEdit = generateEdgeAddOperation(hEdit);
+
 		return hEdit;
 	}
 
-//	public static List<String[]> generateRandOperation(int numOfVertices){
-//		List<String[]> operationList= new ArrayList<String[]>();
-//		
-//		int maxEdgeNum = numOfVertices*(numOfVertices-1)/2;
-//		Random random = new Random();
-//		int operationRandomNum =  Math.abs(random.nextInt()%maxEdgeNum);
-//		
-//		for(int i=0;i< operationRandomNum;i++){
-//			String[] operation=new String[3];
-//			Boolean bool = random.nextBoolean();
-//			operation[0]=bool?"1":"0";
-//			
-//			int v1 = Math.abs(random.nextInt()%numOfVertices);
-//			int v2= Math.abs(random.nextInt()%numOfVertices);
-//			
-//			operation[1] = Integer.toString(v1);
-//			operation[2] = Integer.toString(v2);
-//			
-//			operationList.add(operation);
-//		}
-//		
-//		return operationList;
-//	}
-	
-//	public static void generateRandGraph400() {
-//		int numOfVertices = 400;
-//
-//		for (int i = 0; i < 10000; i++) {
-//			List<String[]> am1 = AlgorithmUtil.generateRandGraph(numOfVertices);
-//			AlgorithmGreedy ag1 = new AlgorithmGreedy(am1);
-//			ag1.computing();
-//			List<Integer> ds1 = ag1.getDominatingSet();
-//			int ds1Size = ds1.size();
-//
-//			List<String[]> am2 = AlgorithmUtil.generateRandGraph(numOfVertices);
-//			AlgorithmGreedy ag2 = new AlgorithmGreedy(am2);
-//			ag2.computing();
-//			List<Integer> ds2 = ag2.getDominatingSet();
-//			int ds2Size = ds2.size();
-//
-//			Collection<Integer> intsec = CollectionUtils.intersection(ds1, ds2);
-//			int intsecSize = intsec.size();
-//			if (intsecSize >= Math.min(ds1Size, ds2Size) / 2) {
-//				AlgorithmUtil.saveAgjacencyMatrixToFile(am1);
-//				am1 = null;
-//				AlgorithmUtil.saveAgjacencyMatrixToFile(am2);
-//				am2 = null;
-//				break;
-//			}
-//			am1 = null;
-//			am2 = null;
-//
-//		}
-//
-//	}
-//
-//	public static void generateRandGraph400_100000() {
-//		int numOfVertices = 400;
-//		int intsecSize = -1;
-//		int ds1Size = 0;
-//		int ds2Size = 0;
-//		List<Integer> ds1;
-//		List<Integer> ds2;
-//		List<String[]> am1 = null;
-//		List<String[]> am2 = null;
-//		while (intsecSize != Math.min(ds1Size, ds2Size)) {
-//
-//			am1 = AlgorithmUtil.generateRandGraph(numOfVertices);
-//			AlgorithmGreedy ag1 = new AlgorithmGreedy(am1);
-//			ag1.computing();
-//			ds1 = ag1.getDominatingSet();
-//			ds1Size = ds1.size();
-//
-//			am2 = AlgorithmUtil.generateRandGraph(numOfVertices);
-//			AlgorithmGreedy ag2 = new AlgorithmGreedy(am2);
-//			ag2.computing();
-//			ds2 = ag2.getDominatingSet();
-//			ds2Size = ds2.size();
-//
-//			Collection<Integer> intsec = CollectionUtils.intersection(ds1, ds2);
-//
-//			intsecSize = intsec.size();
-//
-//		}
-//
-//		AlgorithmUtil.saveAgjacencyMatrixToFile(am1);
-//
-//		AlgorithmUtil.saveAgjacencyMatrixToFile(am2);
-//
-//	}
+	public static HEdit generateEdgeAddOperation(HEdit hEdit) {
+
+		List<String[]> operationList = hEdit.getOperationList();
+		List<String[]> am = hEdit.getOutputAdjacencyMatrix();
+		int numOfVertices = am.size();
+
+		//int maxEdgeOperationNum = numOfVertices * (numOfVertices - 1) / 2;
+		
+		int maxEdgeOperationNum = numOfVertices;
+		Random random = new Random();
+		int operationRandomNum = Math.abs(random.nextInt() % maxEdgeOperationNum);
+		for (int i = 0; i < operationRandomNum; i++) {
+			String[] operation = new String[3];
+			operation[0] = CONNECTED;
+			int v1 = Math.abs(random.nextInt() % numOfVertices);
+			int v2 = Math.abs(random.nextInt() % numOfVertices);
+
+			//change adjacency matrix
+			am.get(v1)[v2] = CONNECTED;
+			am.get(v2)[v1] = CONNECTED;
+			
+			//change operation list
+			operation[1] = Integer.toString(v1);
+			operation[2] = Integer.toString(v2);
+
+			addElementToList(operationList, operation);
+
+		}
+		hEdit.setOperationList(operationList);
+		hEdit.setOutputAdjacencyMatrix(am);
+		
+		return hEdit;
+	}
+
+	public static <E> List<E> addElementToList(List<E> list, E e) {
+		if (!list.contains(e)) {
+			list.add(e);
+		}
+		return list;
+	}
+
+	// public static List<String[]> generateRandOperation(int numOfVertices){
+	// List<String[]> operationList= new ArrayList<String[]>();
+	//
+	// int maxEdgeNum = numOfVertices*(numOfVertices-1)/2;
+	// Random random = new Random();
+	// int operationRandomNum = Math.abs(random.nextInt()%maxEdgeNum);
+	//
+	// for(int i=0;i< operationRandomNum;i++){
+	// String[] operation=new String[3];
+	// Boolean bool = random.nextBoolean();
+	// operation[0]=bool?"1":"0";
+	//
+	// int v1 = Math.abs(random.nextInt()%numOfVertices);
+	// int v2= Math.abs(random.nextInt()%numOfVertices);
+	//
+	// operation[1] = Integer.toString(v1);
+	// operation[2] = Integer.toString(v2);
+	//
+	// operationList.add(operation);
+	// }
+	//
+	// return operationList;
+	// }
+
+	// public static void generateRandGraph400() {
+	// int numOfVertices = 400;
+	//
+	// for (int i = 0; i < 10000; i++) {
+	// List<String[]> am1 = AlgorithmUtil.generateRandGraph(numOfVertices);
+	// AlgorithmGreedy ag1 = new AlgorithmGreedy(am1);
+	// ag1.computing();
+	// List<Integer> ds1 = ag1.getDominatingSet();
+	// int ds1Size = ds1.size();
+	//
+	// List<String[]> am2 = AlgorithmUtil.generateRandGraph(numOfVertices);
+	// AlgorithmGreedy ag2 = new AlgorithmGreedy(am2);
+	// ag2.computing();
+	// List<Integer> ds2 = ag2.getDominatingSet();
+	// int ds2Size = ds2.size();
+	//
+	// Collection<Integer> intsec = CollectionUtils.intersection(ds1, ds2);
+	// int intsecSize = intsec.size();
+	// if (intsecSize >= Math.min(ds1Size, ds2Size) / 2) {
+	// AlgorithmUtil.saveAgjacencyMatrixToFile(am1);
+	// am1 = null;
+	// AlgorithmUtil.saveAgjacencyMatrixToFile(am2);
+	// am2 = null;
+	// break;
+	// }
+	// am1 = null;
+	// am2 = null;
+	//
+	// }
+	//
+	// }
+	//
+	// public static void generateRandGraph400_100000() {
+	// int numOfVertices = 400;
+	// int intsecSize = -1;
+	// int ds1Size = 0;
+	// int ds2Size = 0;
+	// List<Integer> ds1;
+	// List<Integer> ds2;
+	// List<String[]> am1 = null;
+	// List<String[]> am2 = null;
+	// while (intsecSize != Math.min(ds1Size, ds2Size)) {
+	//
+	// am1 = AlgorithmUtil.generateRandGraph(numOfVertices);
+	// AlgorithmGreedy ag1 = new AlgorithmGreedy(am1);
+	// ag1.computing();
+	// ds1 = ag1.getDominatingSet();
+	// ds1Size = ds1.size();
+	//
+	// am2 = AlgorithmUtil.generateRandGraph(numOfVertices);
+	// AlgorithmGreedy ag2 = new AlgorithmGreedy(am2);
+	// ag2.computing();
+	// ds2 = ag2.getDominatingSet();
+	// ds2Size = ds2.size();
+	//
+	// Collection<Integer> intsec = CollectionUtils.intersection(ds1, ds2);
+	//
+	// intsecSize = intsec.size();
+	//
+	// }
+	//
+	// AlgorithmUtil.saveAgjacencyMatrixToFile(am1);
+	//
+	// AlgorithmUtil.saveAgjacencyMatrixToFile(am2);
+	//
+	// }
 }
 
-class HEdit{
+class HEdit {
+//	private int numOfHarmOpearion;
+//
+//	public int getNumOfHarmOpearion() {
+//		return numOfHarmOpearion;
+//	}
+//
+//	public void setNumOfHarmOpearion(int numOfHarmOpearion) {
+//		this.numOfHarmOpearion = numOfHarmOpearion;
+//	}
+
 	private List<String[]> operationList;
+
 	public List<String[]> getOperationList() {
 		return operationList;
 	}
+
 	public void setOperationList(List<String[]> operationList) {
 		this.operationList = operationList;
 	}
+
 	public List<String[]> getOutputAdjacencyMatrix() {
 		return outputAdjacencyMatrix;
 	}
+
 	public void setOutputAdjacencyMatrix(List<String[]> outputAdjacencyMatrix) {
 		this.outputAdjacencyMatrix = outputAdjacencyMatrix;
 	}
+
 	private List<String[]> outputAdjacencyMatrix;
 }
-

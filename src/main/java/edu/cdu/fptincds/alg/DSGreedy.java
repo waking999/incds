@@ -8,7 +8,7 @@ import org.apache.commons.collections15.CollectionUtils;
 
 import edu.uci.ics.jung.graph.Graph;
 
-public class AlgorithmGreedy {
+public class DSGreedy {
 	private Graph<Integer, Integer> g;
 	private List<VertexDegree> vertexDegreeList;
 	List<Integer> dominatingSet; 
@@ -20,13 +20,13 @@ public class AlgorithmGreedy {
 	 * number of vertices shown in the input file, generally in the first line
 	 */
 	private int numOfVertices;
-	public void setnumOfVertices(int numOfVertices) {
-		this.numOfVertices = numOfVertices;
-	}
+//	public void setnumOfVertices(int numOfVertices) {
+//		this.numOfVertices = numOfVertices;
+//	}
 
-	public void setAdjacencyMatrix(List<String[]> adjacencyMatrix) {
-		this.adjacencyMatrix = adjacencyMatrix;
-	}
+//	public void setAdjacencyMatrix(List<String[]> adjacencyMatrix) {
+//		this.adjacencyMatrix = adjacencyMatrix;
+//	}
 
 	/*
 	 * the adjacency matrix shown in the input file
@@ -41,13 +41,13 @@ public class AlgorithmGreedy {
 		
 	}
 	
-	public AlgorithmGreedy(List<String[]> adjacencyMatrix){
+	public DSGreedy(List<String[]> adjacencyMatrix){
 		this.adjacencyMatrix=adjacencyMatrix;
 		this.numOfVertices = adjacencyMatrix.size();
 		this.g = AlgorithmUtil.prepareGraph(this.adjacencyMatrix);	
 	}
 	
-	public AlgorithmGreedy(Graph<Integer, Integer> g){
+	public DSGreedy(Graph<Integer, Integer> g){
 		this.g=g;
 		this.numOfVertices = g.getVertexCount();
 	}
@@ -73,9 +73,9 @@ public class AlgorithmGreedy {
 
 		// idea: Take all vertices of the highest degree as an approximate
 		// solution
-		int index = 0;
+		
 		while (!T.isEmpty()) {
-			Integer v = T.get(index);
+			Integer v = T.get(0);
 			
 			dominatingSet.add(v);
 			T.remove(v);
@@ -86,7 +86,7 @@ public class AlgorithmGreedy {
 			//remove v's neighbours from T
 			T=(List<Integer>)CollectionUtils.subtract(T, neighborsOfV);
 
-			index = 0;
+			
 			
 		}
 		

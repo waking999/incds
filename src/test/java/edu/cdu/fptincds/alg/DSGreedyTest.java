@@ -11,13 +11,12 @@ import edu.cdu.fptincds.io.FileInfo;
 import edu.cdu.fptincds.io.FileOperation;
 import edu.cdu.fptincds.util.LogUtil;
 
-public class AlgorithmGreedyTest {
-	private Logger log = LogUtil.getLogger(AlgorithmGreedyTest.class);
+public class DSGreedyTest {
+	private Logger log = LogUtil.getLogger(DSGreedyTest.class);
 
-	@Ignore
 	@Test
 	public void testComputing_1() {
-		log.debug("AlgorithmGreedy testcase1");
+		log.debug("DSGreedy testcase1");
 		// read from file
 		FileInfo fileInfo = new FileInfo();
 		fileInfo.setInputFile("src/test/resources/testcase1.csv");
@@ -29,7 +28,7 @@ public class AlgorithmGreedyTest {
 		List<String[]> am = fileOperation.getAdjacencyMatrix();
 
 		// initilize algorithm
-		AlgorithmGreedy ag = new AlgorithmGreedy(am);
+		DSGreedy ag = new DSGreedy(am);
 		ag.computing();
 
 		List<Integer> ds = ag.getDominatingSet();
@@ -57,7 +56,7 @@ public class AlgorithmGreedyTest {
 
 		List<String[]> am = fileOperation.getAdjacencyMatrix();
 
-		AlgorithmGreedy ag = new AlgorithmGreedy(am);
+		DSGreedy ag = new DSGreedy(am);
 
 		ag.computing();
 
@@ -86,7 +85,7 @@ public class AlgorithmGreedyTest {
 
 		List<String[]> am = fileOperation.getAdjacencyMatrix();
 
-		AlgorithmGreedy ag = new AlgorithmGreedy(am);
+		DSGreedy ag = new DSGreedy(am);
 
 		ag.computing();
 
@@ -101,8 +100,9 @@ public class AlgorithmGreedyTest {
 
 	}
 
+	@Ignore
 	@Test
-	public void testComputing_400() {
+	public void testComputing_400fpt() {
 
 		FileInfo fileInfo1 = new FileInfo();
 		fileInfo1.setInputFile("src/test/resources/testcase400_a.csv");
@@ -113,7 +113,7 @@ public class AlgorithmGreedyTest {
 
 		List<String[]> am1 = fileOperation1.getAdjacencyMatrix();
 
-		AlgorithmGreedy ag1 = new AlgorithmGreedy(am1);
+		DSGreedy ag1 = new DSGreedy(am1);
 
 		ag1.computing();
 
@@ -130,7 +130,7 @@ public class AlgorithmGreedyTest {
 
 		List<String[]> am2 = fileOperation2.getAdjacencyMatrix();
 
-		AlgorithmGreedy ag2 = new AlgorithmGreedy(am2);
+		DSGreedy ag2 = new DSGreedy(am2);
 
 		ag2.computing();
 

@@ -8,11 +8,12 @@ import org.apache.commons.collections15.CollectionUtils;
 import org.apache.log4j.Logger;
 
 import edu.cdu.fptincds.util.LogUtil;
+import edu.cdu.fptincds.view.GraphView;
 import edu.uci.ics.jung.graph.Graph;
 
-public class AlgorithmFPTIncDS {
+public class IncDSFPT {
 
-	private Logger log = LogUtil.getLogger(AlgorithmFPTIncDS.class);
+	private Logger log = LogUtil.getLogger(IncDSFPT.class);
 
 	private List<String[]> adjacencyMatrix1;
 	private Graph<Integer, Integer> g1;
@@ -26,7 +27,7 @@ public class AlgorithmFPTIncDS {
 		return ds2;
 	}
 
-	public AlgorithmFPTIncDS(List<String[]> adjacencyMatrix1,
+	public IncDSFPT(List<String[]> adjacencyMatrix1,
 			List<String[]> adjacencyMatrix2, List<Integer> dominatingSet1) {
 		int numOfVertices1 = adjacencyMatrix1.size();
 		int numOfVertices2 = adjacencyMatrix2.size();
@@ -65,18 +66,25 @@ public class AlgorithmFPTIncDS {
 	}
 
 	private void reductionRules() {
+		GraphView.presentGraph(g1);
 		Collection<Integer> V = g1.getVertices();
 		List<Integer> B = this.getNeighborsOfS(g2, ds1);
 		Collection<Integer> C = CollectionUtils.subtract(V, B);
 		C = CollectionUtils.subtract(C, ds1);
 
+		//GraphView.presentGraph(g2);
+		
 		Graph<Integer, Integer> gStar = r1(g2, ds1);
+		//GraphView.presentGraph(gStar);
 		gStar = r2(gStar, B, C);
+		//GraphView.presentGraph(gStar);
 		gStar = r3(gStar, B);
 
-		AlgorithmGreedy ag = new AlgorithmGreedy(gStar);
+		GraphView.presentGraph(gStar);
+		
+		DomVCFPT ag = new DomVCFPT(gStar,( List<Integer>)C);
 		ag.computing();
-		List<Integer> SStar = ag.getDominatingSet();
+		List<Integer> SStar = ag.getDominatingVertexCoverSet();
 
 		Collection<Integer> S2 = CollectionUtils.union(ds1, SStar);
 

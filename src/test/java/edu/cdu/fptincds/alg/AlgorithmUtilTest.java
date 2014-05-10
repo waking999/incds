@@ -1,5 +1,6 @@
 package edu.cdu.fptincds.alg;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -16,9 +17,25 @@ public class AlgorithmUtilTest {
 
 	@Ignore
 	@Test
+	public void testAddElementToList() {
+		List<Integer> list = new ArrayList<Integer>();
+
+		AlgorithmUtil.addElementToList(list, new Integer(1));
+		AlgorithmUtil.addElementToList(list, new Integer(1));
+		AlgorithmUtil.addElementToList(list, new Integer(2));
+
+		StringBuffer sb = new StringBuffer();
+		for (Integer i : list) {
+			sb.append(i).append(" ");
+		}
+		log.debug(sb);
+	}
+
+	@Ignore
+	@Test
 	public void testHEdit() {
 		FileInfo fileInfo = new FileInfo();
-		fileInfo.setInputFile("src/test/resources/testcase400_a.csv");
+		fileInfo.setInputFile("src/test/resources/20140510_testcase400_a.csv");
 
 		FileOperation fileOperation = new FileOperation();
 		fileOperation.setFileInfo(fileInfo);
@@ -28,7 +45,7 @@ public class AlgorithmUtilTest {
 
 		Graph<Integer, Integer> g = AlgorithmUtil.prepareGraph(am);
 
-		AlgorithmGreedy ag = new AlgorithmGreedy(am);
+		DSGreedy ag = new DSGreedy(am);
 
 		ag.computing();
 
@@ -42,13 +59,13 @@ public class AlgorithmUtilTest {
 		}
 		log.debug(sb);
 
-		int k = dsSize / 2;
+		int r = dsSize / 2;
 
-		HEdit hEdit = AlgorithmUtil.hEdit(am, g, ds, k);
+		HEdit hEdit = AlgorithmUtil.hEdit(am, g, ds, r);
 
 		List<String[]> am2 = hEdit.getOutputAdjacencyMatrix();
 
-		AlgorithmGreedy ag2 = new AlgorithmGreedy(am2);
+		DSGreedy ag2 = new DSGreedy(am2);
 
 		ag2.computing();
 
