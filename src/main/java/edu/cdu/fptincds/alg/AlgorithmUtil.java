@@ -79,7 +79,7 @@ public class AlgorithmUtil {
 	 */
 	public static List<String[]> generateRandGraph(int numOfVertices) {
 		List<String[]> adjacencyMatrix = null;
-		float adjacentRatio = 0.4f; // the purpose of this ratio is to reduce
+		float adjacentRatio = 0.3f; // the purpose of this ratio is to reduce
 									// the number of neighbors of a vertex in
 									// order to increase the number of elements
 									// in ds. otherwise, a vertex may link to

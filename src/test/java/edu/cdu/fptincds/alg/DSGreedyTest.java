@@ -25,7 +25,7 @@ public class DSGreedyTest {
 		testComputingWithDifferentData(fileInfo);
 
 	}
-
+@Ignore
 	@Test
 	public void testComputing_600() {
 		log.debug("DSGreedy testcase600");
@@ -36,6 +36,17 @@ public class DSGreedyTest {
 		testComputingWithDifferentData(fileInfo);
 
 	}
+
+@Test
+public void testComputing_1000() {
+	log.debug("DSGreedy testcase1000");
+	// read from file
+	FileInfo fileInfo = new FileInfo();
+	fileInfo.setInputFile("src/test/resources/20140511_testcase1000_a.csv");
+
+	testComputingWithDifferentData(fileInfo);
+
+}
 
 	@Ignore
 	@Test

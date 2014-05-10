@@ -66,7 +66,7 @@ public class IncDSFPT {
 	}
 
 	private void reductionRules() {
-		GraphView.presentGraph(g1);
+		//GraphView.presentGraph(g1);
 		Collection<Integer> V = g1.getVertices();
 		List<Integer> B = this.getNeighborsOfS(g2, ds1);
 		Collection<Integer> C = CollectionUtils.subtract(V, B);
@@ -80,7 +80,7 @@ public class IncDSFPT {
 		//GraphView.presentGraph(gStar);
 		gStar = r3(gStar, B);
 
-		GraphView.presentGraph(gStar);
+		//GraphView.presentGraph(gStar);
 		
 		DomVCFPT ag = new DomVCFPT(gStar,( List<Integer>)C);
 		ag.computing();

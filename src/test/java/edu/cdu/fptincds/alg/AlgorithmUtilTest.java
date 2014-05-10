@@ -31,12 +31,37 @@ public class AlgorithmUtilTest {
 		log.debug(sb);
 	}
 
+	
+	@Test
+	/**
+	 * test for generate random graph
+	 */
+	public void testGenerateRandGraph() {
+		int numOfVertex = 1000;
+
+		List<String[]> adjacencyMatrix = AlgorithmUtil.generateRandGraph(numOfVertex);
+
+		
+		FileOperation.saveAgjacencyMatrixToFile(adjacencyMatrix); 
+	}
 	@Ignore
 	@Test
-	public void testHEdit() {
+	public void testHEdit_400() {
 		FileInfo fileInfo = new FileInfo();
 		fileInfo.setInputFile("src/test/resources/20140510_testcase400_a.csv");
 
+		testHEditWithDifferentData(fileInfo);
+	}
+	@Ignore
+	@Test
+	public void testHEdit_600() {
+		FileInfo fileInfo = new FileInfo();
+		fileInfo.setInputFile("src/test/resources/20140511_testcase600_a.csv");
+
+		testHEditWithDifferentData(fileInfo);
+	}
+
+	private void testHEditWithDifferentData(FileInfo fileInfo) {
 		FileOperation fileOperation = new FileOperation();
 		fileOperation.setFileInfo(fileInfo);
 		fileOperation.retriveAdjacencyInfo();
