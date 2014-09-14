@@ -2,7 +2,6 @@ package edu.cdu.fptincds.alg;
 
 import java.util.List;
 
-import org.apache.commons.collections15.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -17,66 +16,181 @@ public class DSGreedyTest {
 	@Ignore
 	@Test
 	public void testComputing_1() {
-		log.debug("DSGreedy testcase1");
-		// read from file
-		FileInfo fileInfo = new FileInfo();
-		fileInfo.setInputFile("src/test/resources/testcase1.csv");
 
-		testComputingWithDifferentData(fileInfo);
+		String message = "DSGreedy testcase1";
+		String inputFile = "src/test/resources/testcase1.csv";
+
+		List<Integer> ds = testComputingWithDifferentData(message, inputFile);
+		
+		
 
 	}
-@Ignore
+	
+	
+	@Test
+	public void testComputing_2() {
+
+		String message = "DSGreedy testcase2";
+		String inputFile = "src/test/resources/testcase2.csv";
+
+		testComputingWithDifferentData(message, inputFile);
+
+	}
+
+	@Test
+	public void testComputing_50() {
+
+		String message = "DSGreedy testcase50";
+		String inputFile = "src/test/resources/testcase50.csv";
+
+		testComputingWithDifferentData(message, inputFile);
+
+	}
+	
+	
+	@Test
+	public void testComputing_100() {
+
+		String message = "DSGreedy testcase100";
+		String inputFile = "src/test/resources/100_0.3_testcase_a.csv";
+
+		testComputingWithDifferentData(message, inputFile);
+
+	}
+	
+	@Test
+	public void testComputing_400() {
+
+		String message = "DSGreedy testcase400";
+		String inputFile = "src/test/resources/400_testcase_20140524_a.csv";
+
+		testComputingWithDifferentData(message, inputFile);
+
+	}
+	
+	
 	@Test
 	public void testComputing_600() {
-		log.debug("DSGreedy testcase600");
-		// read from file
-		FileInfo fileInfo = new FileInfo();
-		fileInfo.setInputFile("src/test/resources/testcase600.csv");
 
-		testComputingWithDifferentData(fileInfo);
+		String message = "DSGreedy2 testcase600";
+		String inputFile = "src/test/resources/600_testcase_20140525_a.csv";
+
+		testComputingWithDifferentData(message, inputFile);
+
+	}
+	
+	@Test
+	public void testComputing_800() {
+
+		String message = "DSGreedy2 testcase600";
+		String inputFile = "src/test/resources/600_testcase_20140525_a.csv";
+
+		testComputingWithDifferentData(message, inputFile);
+
+	}
+	
+	
+	
+	@Ignore
+	@Test
+	public void testComputing_50_b() {
+
+		String message = "DSGreedy testcase50b";
+		String inputFile = "src/test/resources/20140523_testcase50_b.csv";
+
+		testComputingWithDifferentData(message, inputFile);
+
+	}
+	
+
+	
+
+//	@Ignore
+//	@Test
+//	public void testComputing_600() {
+//
+//		String message = "DSGreedy testcase600";
+//		String inputFile = "src/test/resources/testcase600.csv";
+//
+//		testComputingWithDifferentData(message, inputFile);
+//
+//	}
+	@Ignore
+	@Test
+	public void testComputing_600_a() {
+
+		String message = "DSGreedy testcase600a";
+		String inputFile = "src/test/resources/20140511_testcase600_a.csv";
+
+		testComputingWithDifferentData(message, inputFile);
+
+	}
+	@Ignore
+	@Test
+	public void testComputing_600_b() {
+
+		String message = "DSGreedy testcase600b";
+		String inputFile = "src/test/resources/20140511_testcase600_b.csv";
+
+		testComputingWithDifferentData(message, inputFile);
 
 	}
 
-@Test
-public void testComputing_1000() {
-	log.debug("DSGreedy testcase1000");
-	// read from file
-	FileInfo fileInfo = new FileInfo();
-	fileInfo.setInputFile("src/test/resources/20140511_testcase1000_a.csv");
+	@Ignore
+	@Test
+	public void testComputing_1000_a() {
+		String message = "DSGreedy testcase1000a";
+		String inputFile = "src/test/resources/20140511_testcase1000_a.csv";
 
-	testComputingWithDifferentData(fileInfo);
+		testComputingWithDifferentData(message, inputFile);
 
-}
+	}
+	@Ignore
+	@Test
+	public void testComputing_1000_b() {
+		String message = "DSGreedy testcase1000b";
+		String inputFile = "src/test/resources/20140511_testcase1000_a.csv";
+
+		testComputingWithDifferentData(message, inputFile);
+
+	}
 
 	@Ignore
 	@Test
 	public void testComputing_400a() {
-		log.debug("AlgorithmGreedy testcase400a");
-		// read from file
-		FileInfo fileInfo = new FileInfo();
-		fileInfo.setInputFile("src/test/resources/testcase400_a.csv");
 
-		testComputingWithDifferentData(fileInfo);
+		String message = "DSGreedy testcase400a";
+		String inputFile = "src/test/resources/20140510_testcase400_a.csv";
+
+		testComputingWithDifferentData(message, inputFile);
 
 	}
 
 	@Ignore
 	@Test
 	public void testComputing_400b() {
-		log.debug("AlgorithmGreedy testcase400b");
-		// read from file
-		FileInfo fileInfo = new FileInfo();
-		fileInfo.setInputFile("src/test/resources/testcase400_b.csv");
 
-		testComputingWithDifferentData(fileInfo);
+		String message = "DSGreedy testcase400b";
+		String inputFile = "src/test/resources/20140510_testcase400_b.csv";
+
+		testComputingWithDifferentData(message, inputFile);
 
 	}
 
-	private void testComputingWithDifferentData(FileInfo fileInfo) {
+	private List<Integer> testComputingWithDifferentData(String message,
+			String inputFile) {
+
+		log.debug(message);
+		// read adjacency matrix from file
+		FileInfo fileInfo = new FileInfo();
+		fileInfo.setInputFile(inputFile);
+
 		FileOperation fileOperation = new FileOperation();
 		fileOperation.setFileInfo(fileInfo);
-		fileOperation.retriveAdjacencyInfo();
+		fileOperation.retriveProblemInfo();
 
+		int numOfV = fileOperation.getNumOfVertices();
+		log.debug("number of Vertices:"+numOfV);
 		List<String[]> am = fileOperation.getAdjacencyMatrix();
 
 		DSGreedy ag = new DSGreedy(am);
@@ -84,58 +198,25 @@ public void testComputing_1000() {
 		ag.computing();
 
 		List<Integer> ds = ag.getDominatingSet();
-		log.debug(ds.size());
+	
+		log.debug("number of Vertices in dominating set:"+ds.size());
 
 		StringBuffer sb = new StringBuffer();
 		for (Integer i : ds) {
 			sb.append(i).append(" ");
 		}
-		log.debug(sb);
+		//log.debug(sb);
+
+		return ds;
 	}
 
 	@Ignore
 	@Test
 	public void testComputing_400fpt() {
 
-		FileInfo fileInfo1 = new FileInfo();
-		fileInfo1.setInputFile("src/test/resources/testcase400_a.csv");
+		testComputing_400a();
 
-		FileOperation fileOperation1 = new FileOperation();
-		fileOperation1.setFileInfo(fileInfo1);
-		fileOperation1.retriveAdjacencyInfo();
+		testComputing_400b();
 
-		List<String[]> am1 = fileOperation1.getAdjacencyMatrix();
-
-		DSGreedy ag1 = new DSGreedy(am1);
-
-		ag1.computing();
-
-		List<Integer> ds1 = ag1.getDominatingSet();
-		log.debug(ds1.size());
-
-		// read from file
-		FileInfo fileInfo2 = new FileInfo();
-		fileInfo2.setInputFile("src/test/resources/testcase400_b.csv");
-
-		FileOperation fileOperation2 = new FileOperation();
-		fileOperation2.setFileInfo(fileInfo2);
-		fileOperation2.retriveAdjacencyInfo();
-
-		List<String[]> am2 = fileOperation2.getAdjacencyMatrix();
-
-		DSGreedy ag2 = new DSGreedy(am2);
-
-		ag2.computing();
-
-		List<Integer> ds2 = ag2.getDominatingSet();
-		log.debug(ds2.size());
-
-		List<Integer> intsec = (List<Integer>) CollectionUtils.intersection(
-				ds1, ds2);
-		StringBuffer sb = new StringBuffer();
-		for (Integer i : intsec) {
-			sb.append(i).append(" ");
-		}
-		log.debug(sb);
 	}
 }

@@ -17,61 +17,63 @@ import java.util.List;
  * @author : Kai
  * 
  */
-public class FileOperation  {
-	private static final String DEST_FILE_SEPARATION = " ";
-	
-	public static String getDestFileSeparation() {
-		return DEST_FILE_SEPARATION;
-	}
+public class FileOperation {
+	private static final String COMMA = ",";
+	private static final String BLANK = " ";
 
-
-	
-
-
-	
 	/*
 	 * the input file path and name
 	 */
 	private FileInfo fileInfo;
-	
+
 	/*
 	 * the adjacency matrix shown in the input file
 	 */
 	private List<String[]> adjacencyMatrix;
-	
+
+	private int numOfVertices;
+
+	public int getNumOfVertices() {
+		return numOfVertices;
+	}
+
+	public int getK() {
+		return k;
+	}
+
+	public int getR() {
+		return r;
+	}
+
+	private int k;
+	private int r;
 
 	public void setFileInfo(FileInfo fileInfo) {
 		this.fileInfo = fileInfo;
 	}
 
-	/**
-	 * save the adjacency matrix to file
-	 * 
-	 * @param adjacencyMatrix
-	 *            , adjacency matrix
-	 */
-	public static void saveAgjacencyMatrixToFile(List<String[]> adjacencyMatrix) {
-		String fileName = "testcase"+System.currentTimeMillis() + ".csv";
-		
+	private static String saveAgjacencyMatrixToFile(String filePath,
+			String fileName, List<String[]> adjacencyMatrix) {
+
+		int numOfVertices = adjacencyMatrix.size();
+
 		FileOutputStream out = null;
 		OutputStreamWriter osw = null;
 		BufferedWriter bw = null;
-		
-		
+		String filePN = filePath + fileName;
 		try {
-			
-			File csvFile = new File(fileName);
+
+			File csvFile = new File(filePN);
 			out = new FileOutputStream(csvFile);
 			osw = new OutputStreamWriter(out);
 			bw = new BufferedWriter(osw);
 
-			int numOfVertices = adjacencyMatrix.size();
 			bw.write(numOfVertices + "\r\n");
 			for (int i = 0; i < numOfVertices; i++) {
 				String[] row = adjacencyMatrix.get(i);
 				StringBuffer sb = new StringBuffer();
 				for (int j = 0; j < numOfVertices; j++) {
-					sb.append(row[j]).append(",");
+					sb.append(row[j]).append(COMMA);
 				}
 				bw.write(sb.subSequence(0, sb.length() - 1) + "\r\n");
 
@@ -88,33 +90,72 @@ public class FileOperation  {
 				bw.close();
 				osw.close();
 				out.close();
+
 			} catch (IOException e) {
 
 				e.printStackTrace();
 			}
+
 		}
 
+		return filePN;
 	}
-	/*
-	 * (non-Javadoc)
+
+	/**
+	 * save the adjacency matrix to file
 	 * 
-	 * @see edu.cdu.fpt.io.IInput#getAdjacencyInfo()
+	 * @param adjacencyMatrix
+	 *            , adjacency matrix
 	 */
-	public void retriveAdjacencyInfo() {
+	public static String saveAgjacencyMatrixToFile(
+			List<String[]> adjacencyMatrix, float ratio) {
+		int numOfVertices = adjacencyMatrix.size();
+		String filePath = "src/test/resources/";
+		String fileName = numOfVertices + "_" + ratio + "_testcase_"
+				+ System.currentTimeMillis() + ".csv";
+
+		return saveAgjacencyMatrixToFile(filePath, fileName, adjacencyMatrix);
+
+	}
+
+	public static void deleteFile(String fileName) {
+		File file = new File(fileName);
+		file.delete();
+	}
+
+	/**
+	 * retrive graph info
+	 */
+	public void retriveProblemInfo() {
 
 		BufferedReader reader = null;
 		try {
-			reader = new BufferedReader(new FileReader(this.fileInfo.getInputFile()));
+			reader = new BufferedReader(new FileReader(
+					this.fileInfo.getInputFile()));
 
 			String line = null;
 
-			// the first line is number of vertex
+			// the first line is number of vertices,some parameters such as k,r
 			line = reader.readLine();
+
+			String[] firstLine = line.split(COMMA);
+			int firstLineLen = firstLine.length;
+			if (firstLineLen > 0 && firstLine[0] != null) {
+				numOfVertices = Integer.parseInt(firstLine[0]);
+			}
+
+			if (firstLineLen > 1 && firstLine[1] != null) {
+				k = Integer.parseInt(firstLine[1]);
+			}
+
+			if (firstLineLen > 2 && firstLine[2] != null) {
+				r = Integer.parseInt(firstLine[2]);
+			}
 			// the following lines from the 2nd line are adjacency matrix
 			adjacencyMatrix = new ArrayList<String[]>();
 
 			while ((line = reader.readLine()) != null) {
-				String item[] = line.split(",");
+				String item[] = line.split(COMMA);
 				adjacencyMatrix.add(item);
 			}
 		} catch (FileNotFoundException e) {
@@ -131,29 +172,23 @@ public class FileOperation  {
 
 	}
 
-	
-	
-
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see edu.cdu.fpt.io.IInput#getAdjacencyMatrix()
-	 */
 	public List<String[]> getAdjacencyMatrix() {
 		return adjacencyMatrix;
 	}
-	
+
+	/**
+	 * 
+	 * @param operationList
+	 */
 	public static void saveOperationToFile(List<String[]> operationList) {
-		String fileName = "operation"+System.currentTimeMillis() + ".csv";
-		
+		String fileName = "operation" + System.currentTimeMillis() + ".csv";
+
 		FileOutputStream out = null;
 		OutputStreamWriter osw = null;
 		BufferedWriter bw = null;
-		
-		
+
 		try {
-			
+
 			File csvFile = new File(fileName);
 			out = new FileOutputStream(csvFile);
 			osw = new OutputStreamWriter(out);
@@ -164,7 +199,7 @@ public class FileOperation  {
 				String[] row = operationList.get(i);
 				StringBuffer sb = new StringBuffer();
 				for (int j = 0; j < 3; j++) {
-					sb.append(row[j]).append(" ");
+					sb.append(row[j]).append(BLANK);
 				}
 				bw.write(sb.append("\r\n").toString());
 
@@ -188,6 +223,5 @@ public class FileOperation  {
 		}
 
 	}
-
 
 }

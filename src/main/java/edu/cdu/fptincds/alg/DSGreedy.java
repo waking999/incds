@@ -4,89 +4,98 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.collections15.CollectionUtils;
-
 import edu.uci.ics.jung.graph.Graph;
 
+/**
+ * make use of greedy algorithm to get a dominating set of a graph
+ * 
+ * @author Kai Wang
+ * 
+ */
 public class DSGreedy {
+	/**
+	 * the graph
+	 */
 	private Graph<Integer, Integer> g;
+	/**
+	 * 
+	 * a sorted vertices with their degree (from highest degree to the lowest)
+	 */
 	private List<VertexDegree> vertexDegreeList;
-	List<Integer> dominatingSet; 
+	/**
+	 * the desired dominating set
+	 */
+	List<Integer> dominatingSet;
+
 	public List<Integer> getDominatingSet() {
 		return dominatingSet;
 	}
 
-	/*
-	 * number of vertices shown in the input file, generally in the first line
+	/**
+	 * number of vertices
 	 */
 	private int numOfVertices;
 
-
-	/*
-	 * the adjacency matrix shown in the input file
+	/**
+	 * the adjacency matrix of the graph
 	 */
 	private List<String[]> adjacencyMatrix;
-	
-	
-	public void computing(){
-	
+
+	public DSGreedy(List<String[]> adjacencyMatrix) {
+		this.adjacencyMatrix = adjacencyMatrix;
+		this.numOfVertices = adjacencyMatrix.size();
+		this.g = AlgorithmUtil.prepareGraph(this.adjacencyMatrix);
+
+	}
+
+	public DSGreedy(Graph<Integer, Integer> g) {
+		this.g = g;
+		this.numOfVertices = g.getVertexCount();
+
+	}
+
+	/**
+	 * the major function do the computing to get the desired solution. In this
+	 * case, the desired result is a dominating set
+	 */
+	public void computing() {
+
 		initialization();
 		greedy();
-		
+
 	}
-	
-	public DSGreedy(List<String[]> adjacencyMatrix){
-		this.adjacencyMatrix=adjacencyMatrix;
-		this.numOfVertices = adjacencyMatrix.size();
-		this.g = AlgorithmUtil.prepareGraph(this.adjacencyMatrix);	
-		this.vertexDegreeList = AlgorithmUtil
-				.sortVertexAccordingToDegree(g);
-	}
-	
-	public DSGreedy(Graph<Integer, Integer> g){
-		this.g=g;
-		this.numOfVertices = g.getVertexCount();
-		this.vertexDegreeList = AlgorithmUtil
-				.sortVertexAccordingToDegree(g);
-	}
-	
-	/**
-	 * 
-	 */
-	private  void initialization() {
-			
-		
+
+	private void initialization() {
+		this.vertexDegreeList = AlgorithmUtil.sortVertexAccordingToDegree(g);
 		this.dominatingSet = new ArrayList<Integer>();
 	}
 
 	private void greedy() {
-		
+
 		List<Integer> T = new ArrayList<Integer>();
-		
+
 		for (int j = 0; j < numOfVertices; j++) {
-			T.add(vertexDegreeList.get(numOfVertices - 1 - j)
-					.getVertex());
+			T.add(vertexDegreeList.get(j).getVertex());
 		}
 
-		// idea: Take all vertices of the highest degree as an approximate
-		// solution
-		
+		/*
+		 * idea: Take all vertices of the highest degree as an approximate
+		 * solution
+		 */
+
 		while (!T.isEmpty()) {
+			//get the vertex with the highest degree
 			Integer v = T.get(0);
-			
+
 			dominatingSet.add(v);
 			T.remove(v);
-			
 
 			Collection<Integer> neighborsOfV = g.getNeighbors(v);
-			
-			//remove v's neighbours from T
-			T=(List<Integer>)CollectionUtils.subtract(T, neighborsOfV);
 
-			
-			
+			// remove v's neighbours from T
+			T.removeAll(neighborsOfV);
+
 		}
-		
-		
+
 	}
 }

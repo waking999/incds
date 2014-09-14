@@ -8,15 +8,16 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class FileOperationTest {
+
 	@Test 
-	public void testRetriveAdjacencyInfo(){
+	public void testRetriveProblemInfo(){
 		FileInfo fileInfo = new FileInfo();
 		fileInfo.setInputFile("src/test/resources/testcase1.csv");
 		
 		
 		FileOperation fileOperation = new FileOperation();
 		fileOperation.setFileInfo(fileInfo);
-		fileOperation.retriveAdjacencyInfo();
+		fileOperation.retriveProblemInfo();
 		List<String[]> am= fileOperation.getAdjacencyMatrix();
 		int numOfVertices = am.size();
 		

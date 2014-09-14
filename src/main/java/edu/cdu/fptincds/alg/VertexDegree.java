@@ -7,15 +7,21 @@ package edu.cdu.fptincds.alg;
  * 
  */
 public class VertexDegree implements Comparable<VertexDegree> {
-	int vertex;
+	/**
+	 * the label of a vertex
+	 */
+	Integer vertex;
+	/**
+	 * the degree of the vertex
+	 */
 	int degree;
 
-	public VertexDegree(int vertex, int degree) {
+	public VertexDegree(Integer vertex, int degree) {
 		this.vertex = vertex;
 		this.degree = degree;
 	}
 
-	public int getVertex() {
+	public Integer getVertex() {
 		return vertex;
 	}
 
@@ -24,7 +30,11 @@ public class VertexDegree implements Comparable<VertexDegree> {
 	}
 
 	public int compareTo(VertexDegree arg0) {
-		return this.getDegree() - arg0.getDegree();
+		/*
+		 * sort the vertexdegrees in a list by their degree from highest to the
+		 * lowest
+		 */
+		return arg0.getDegree() - this.getDegree();
 	}
 
 }
